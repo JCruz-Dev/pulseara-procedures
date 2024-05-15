@@ -1,35 +1,82 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  deleteProcedure,
+  getProccedures,
+  insertProccedure,
+  updateProcedure,
+} from "./db/enpoints";
+import { IProcedures } from "./db/types";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const queryClient = useQueryClient();
+  const query = useQuery({
+    queryKey: ["proceduresList"],
+    queryFn: getProccedures,
+  });
+  const insertQuery = useMutation({
+    mutationFn: insertProccedure,
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+  const deleteQuery = useMutation({
+    mutationFn: deleteProcedure,
+    onSuccess: () => queryClient.invalidateQueries(),
+  });
+  const updateQuery = useMutation({
+    mutationFn: updateProcedure,
+    onSuccess: () => queryClient.invalidateQueries(),
+  });
+  const handleInsertData = () => {
+    const p: IProcedures = {
+      insurance_authorized_amount: 300,
+      procediment: "Insulina",
+      procediment_code: "A2445",
+      procediment_difference: 50,
+      reclaimed_amount: 20,
+    };
+    insertQuery.mutate(p);
+  };
+  const handleDeleteData = (id: string) => deleteQuery.mutate(id);
 
+  const handleUpdateData = (item: IProcedures, id: string) => {
+    const i = {
+      ...item,
+      procediment: "Insulnaxxxxs",
+    };
+    console.log(i);
+    updateQuery.mutate({
+      data: i,
+      id: id,
+    });
+  };
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {query.data?.sort().map((item: IProcedures) => (
+        <>
+          <div key={item.id}>
+            {item.procediment}
+            {item && (
+              <>
+                {item.id}
+                <button onClick={() => item.id && handleDeleteData(item.id)}>
+                  delete
+                </button>
+
+                <button
+                  onClick={() => item.id && handleUpdateData(item, item.id)}
+                >
+                  update
+                </button>
+              </>
+            )}
+          </div>
+        </>
+      ))}
+      <button onClick={handleInsertData}>Insert Data</button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

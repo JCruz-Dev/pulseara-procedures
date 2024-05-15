@@ -1,7 +1,8 @@
 export interface IProcedures {
+  id?: string;
   procediment: string;
-  procediment_code: number;
+  procediment_code: string;
   reclaimed_amount: number;
-  procediment_different: number;
+  procediment_difference: number;
   insurance_authorized_amount: number;
 }

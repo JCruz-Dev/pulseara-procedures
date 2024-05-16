@@ -5,7 +5,10 @@ type RequestData = Promise<IProcedures[]>;
 const currentTable = "procedures";
 export const getProccedures = async (): RequestData => {
   try {
-    const { data: procedures } = await supabase.from(currentTable).select("*");
+    const { data: procedures } = await supabase
+      .from(currentTable)
+      .select("*")
+      .order("created_at", { ascending: true });
     return procedures ?? [];
   } catch (error) {
     console.log(error);
@@ -34,7 +37,7 @@ export const updateProcedure = async ({
   id: string;
 }) => {
   try {
-    await supabase.from(currentTable).update(data).eq("id", id);
+    await supabase.from(currentTable).update(data).eq("id", id).select();
   } catch (error) {
     console.log(error);
   }

@@ -53,7 +53,7 @@ function App() {
   };
   return (
     <>
-      {query.data?.sort().map((item: IProcedures) => (
+      {query.data?.map((item: IProcedures) => (
         <>
           <div key={item.id}>
             {item.procediment}

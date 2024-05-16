@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   deleteProcedure,
@@ -7,6 +7,7 @@ import {
   updateProcedure,
 } from "./db/enpoints";
 import { IProcedures } from "./db/types";
+import Layout from "./components/Container/Container";
 
 function App() {
   const queryClient = useQueryClient();
@@ -52,7 +53,8 @@ function App() {
     });
   };
   return (
-    <>
+    <Layout>
+      <h1 className="procedure-title">Procedimientos</h1>
       {query.data?.map((item: IProcedures) => (
         <>
           <div key={item.id}>
@@ -75,7 +77,7 @@ function App() {
         </>
       ))}
       <button onClick={handleInsertData}>Insert Data</button>
-    </>
+    </Layout>
   );
 }
 

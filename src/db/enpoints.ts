@@ -29,6 +29,13 @@ export const deleteProcedure = async (id: string) => {
     console.log(error);
   }
 };
+export const deleteToManyProcedures = async (data: string[]) => {
+  try {
+    await supabase.from(currentTable).delete().in("id", data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const updateProcedure = async ({
   data,
   id,
@@ -38,6 +45,13 @@ export const updateProcedure = async ({
 }) => {
   try {
     await supabase.from(currentTable).update(data).eq("id", id).select();
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const updateAllProcedure = async (data: IProcedures[]) => {
+  try {
+    await supabase.from(currentTable).upsert(data).select();
   } catch (error) {
     console.log(error);
   }

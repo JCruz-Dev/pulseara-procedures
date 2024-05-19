@@ -1,82 +1,53 @@
-import "./App.scss";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  deleteProcedure,
-  getProccedures,
-  insertProccedure,
-  updateProcedure,
-} from "./db/enpoints";
-import { IProcedures } from "./db/types";
-import Layout from "./components/Container/Container";
+import { useQuery } from "@tanstack/react-query";
+import { getProccedures } from "./db/enpoints";
+import Layout from "@components/Container/Container";
+import ProcedureWrapper from "@components/ProcedureWrapper/ProcedureWrapper";
+import { NoContent } from "@components/404/NoContent";
+import ProcedureModal from "@components/Modal/ProcedureModal";
+import { setStore, store } from "@store/store.setup";
+import { useSetAtom, useAtomValue } from "jotai";
+import { useEffect } from "react";
 
 function App() {
-  const queryClient = useQueryClient();
-  const query = useQuery({
+  const setProcedureList = useSetAtom(setStore);
+  const procedureListData = useAtomValue(store);
+  const { data, isSuccess } = useQuery({
     queryKey: ["proceduresList"],
     queryFn: getProccedures,
   });
-  const insertQuery = useMutation({
-    mutationFn: insertProccedure,
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-    },
-  });
-  const deleteQuery = useMutation({
-    mutationFn: deleteProcedure,
-    onSuccess: () => queryClient.invalidateQueries(),
-  });
-  const updateQuery = useMutation({
-    mutationFn: updateProcedure,
-    onSuccess: () => queryClient.invalidateQueries(),
-  });
-  const handleInsertData = () => {
-    const p: IProcedures = {
-      insurance_authorized_amount: 300,
-      procediment: "Insulina",
-      procediment_code: "A2445",
-      procediment_difference: 50,
-      reclaimed_amount: 20,
-    };
-    insertQuery.mutate(p);
-  };
-  const handleDeleteData = (id: string) => deleteQuery.mutate(id);
+  useEffect(() => {
+    if (data) setProcedureList(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
 
-  const handleUpdateData = (item: IProcedures, id: string) => {
-    const i = {
-      ...item,
-      procediment: "Insulnaxxxxs",
-    };
-    console.log(i);
-    updateQuery.mutate({
-      data: i,
-      id: id,
-    });
+  const wrapperVariant = {
+    no_data: "justify-center items-center w-full",
+    data: "",
   };
+  const addStyleAfterverifiedDataLength =
+    procedureListData && procedureListData?.length > 0
+      ? wrapperVariant.data
+      : wrapperVariant.no_data;
   return (
     <Layout>
-      <h1 className="procedure-title">Procedimientos</h1>
-      {query.data?.map((item: IProcedures) => (
-        <>
-          <div key={item.id}>
-            {item.procediment}
-            {item && (
-              <>
-                {item.id}
-                <button onClick={() => item.id && handleDeleteData(item.id)}>
-                  delete
-                </button>
-
-                <button
-                  onClick={() => item.id && handleUpdateData(item, item.id)}
-                >
-                  update
-                </button>
-              </>
-            )}
+      <h1 className="text-procedure-black-100 text-2xl font-semibold">
+        Procedimientos
+      </h1>
+      <section
+        className={`my-9 flex flex-col ${addStyleAfterverifiedDataLength} min-h-96`}
+      >
+        {procedureListData && (
+          <div className="flex flex-col gap-3">
+            {procedureListData.map((item, index) => (
+              <div key={item.id}>
+                <ProcedureWrapper key={item.id} data={item} idx={index + 1} />
+              </div>
+            ))}
           </div>
-        </>
-      ))}
-      <button onClick={handleInsertData}>Insert Data</button>
+        )}
+        {!procedureListData?.length && <NoContent />}
+        {procedureListData && <ProcedureModal />}
+      </section>
     </Layout>
   );
 }

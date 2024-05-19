@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-body font-body font-normal;
+  font-optical-sizing: auto;
+}

@@ -7,6 +7,13 @@
     "skipLibCheck": true,
     // Need for ViTest
     "types": ["vitest/globals"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@store/*": ["./src/store/*"],
+      "@db/*": ["./src/db/*"],
+    },
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

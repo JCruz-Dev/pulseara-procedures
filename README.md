@@ -18,7 +18,7 @@ https://github.com/JCruz-Dev/pulseara-procedures/assets/13596890/c8c81ed2-9a23-4
 
 1. Clone the repo
    ```sh
-   git [clone https://github.com/JCruz-Dev/pulseara-procedures.git](https://github.com/JCruz-Dev/pulseara-procedures.git)
+   git clone https://github.com/JCruz-Dev/pulseara-procedures.git
    ```
 2. Install NPM packages
    ```sh

@@ -56,7 +56,7 @@ function App() {
             open={snackbarValue}
             autoHideDuration={6000}
             onClose={() => setSnackbarValue(!snackbarValue)}
-            message="Procedimiento Guardado"
+            message="Procedimiento agregado"
           />
         )}
       </section>

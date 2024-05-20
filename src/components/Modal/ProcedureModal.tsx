@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import consultaIcon from "@assets/consulta.svg";
 import closeModalIcon from "@assets/close.svg";
 import AddProcedureIcon from "@assets/add.svg";
+import SaveChanges from "@assets/save.svg";
 import RemoveProcedureIcon from "@assets/remove.svg";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
@@ -12,14 +13,15 @@ import {
 } from "@db/types";
 import { useMutation } from "@tanstack/react-query";
 import { deleteToManyProcedures, updateAllProcedure } from "@db/enpoints";
-import { useAtomValue, useSetAtom } from "jotai";
-import { store, storeModal } from "@store/store.setup";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { snackbarState, store, storeModal } from "@store/store.setup";
 import { appendFormMock, defaultFormValues } from "./mock";
 import ProcedureModalItem from "./ProcedureModalItem";
 
 const ProcedureModal = () => {
   const procedures = useAtomValue(storeModal);
   const setStore = useSetAtom(store);
+  const [, setSnackbarValue] = useAtom(snackbarState);
   const [open, setOpen] = useState(false);
   const { register, handleSubmit, control, setValue } = useForm({
     defaultValues: {
@@ -118,6 +120,7 @@ const ProcedureModal = () => {
     setStore(normalizedData);
     updateQuery.mutate(formatedData);
     handleClose();
+    setSnackbarValue(true);
   };
   return (
     <div className="mt-9">
@@ -158,7 +161,7 @@ const ProcedureModal = () => {
               </span>
             </Button>
           </section>
-          <article className="mt-8 flex items-center w-full">
+          <article className="mt-8 flex items-center w-full flex-col lg:flex-row gap-8">
             <>
               {!fields.filter(
                 (item) =>
@@ -284,14 +287,16 @@ const ProcedureModal = () => {
                   disabled={!fields.length}
                   variant="outlined"
                   onClick={handleClose}
-                  className="!normal-case !border-2 !border-procedure-purple-200 hover:!bg-indigo-100 !text-procedure-purple-300 disabled:!bg-violet-50 disabled:!border-violet-100 disabled:!text-violet-200"
+                  sx={{ maxWidth: "138px" }}
+                  className="w-full !normal-case !border-2 !border-procedure-purple-200 hover:!bg-indigo-100 !text-procedure-purple-300 xl:!min-w-[138px] xl:!h-[32px] disabled:!bg-violet-50 disabled:!border-violet-100 disabled:!text-violet-200"
                 >
                   Cancelar
                 </Button>
                 <Button
                   type="submit"
-                  className="!normal-case !bg-procedure-blue-100 !text-white flex gap-2 items-center !px-4 w-fit disabled:!bg-blue-200"
+                  className="!normal-case !bg-procedure-blue-100 !text-white flex gap-2 items-center !px-4 w-fit xl:min-w-[138px] xl:h-[32px] disabled:!bg-blue-200 justify-center"
                 >
+                  <img src={SaveChanges} alt="Guardar cambios icon" />
                   Guardar cambios
                 </Button>
               </div>

@@ -12,6 +12,7 @@ export interface IProcedureStore {
   insurance_authorized_amount: number;
 }
 export const store = atom<IProcedureStore[]>([]);
+export const snackbarState = atom(false);
 export const storeModal = atomWithDefault((get) => get(store));
 export const setStore = atom(null, (_get, set, args: IProcedures[]) => {
   set(store, args);

@@ -4,13 +4,15 @@ import Layout from "@components/Container/Container";
 import ProcedureWrapper from "@components/ProcedureWrapper/ProcedureWrapper";
 import { NoContent } from "@components/404/NoContent";
 import ProcedureModal from "@components/Modal/ProcedureModal";
-import { setStore, store } from "@store/store.setup";
-import { useSetAtom, useAtomValue } from "jotai";
+import { setStore, snackbarState, store } from "@store/store.setup";
+import { useSetAtom, useAtomValue, useAtom } from "jotai";
 import { useEffect } from "react";
+import { Snackbar } from "@mui/material";
 
 function App() {
   const setProcedureList = useSetAtom(setStore);
   const procedureListData = useAtomValue(store);
+  const [snackbarValue, setSnackbarValue] = useAtom(snackbarState);
   const { data, isSuccess } = useQuery({
     queryKey: ["proceduresList"],
     queryFn: getProccedures,
@@ -28,6 +30,7 @@ function App() {
     procedureListData && procedureListData?.length > 0
       ? wrapperVariant.data
       : wrapperVariant.no_data;
+
   return (
     <Layout>
       <h1 className="text-procedure-black-100 text-2xl font-semibold">
@@ -47,6 +50,15 @@ function App() {
         )}
         {!procedureListData?.length && <NoContent />}
         {procedureListData && <ProcedureModal />}
+        {snackbarValue && (
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            open={snackbarValue}
+            autoHideDuration={6000}
+            onClose={() => setSnackbarValue(!snackbarValue)}
+            message="Procedimiento Guardado"
+          />
+        )}
       </section>
     </Layout>
   );

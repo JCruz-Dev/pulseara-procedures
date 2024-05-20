@@ -27,7 +27,7 @@ https://github.com/JCruz-Dev/pulseara-procedures/assets/13596890/c8c81ed2-9a23-4
    ```
 3. Run server
    ```sh
-   yarn/pnpm/npm dev
+   yarn dev
    ```
 4. Run Tailwind compiler (if needs to change styles in the project for test)
    ```sh

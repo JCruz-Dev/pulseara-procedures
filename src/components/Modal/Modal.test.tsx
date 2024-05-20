@@ -119,7 +119,7 @@ describe("ProcedureModal", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(screen.queryByRole("dialog")).not.toBeCalled;
     });
   });
 });

@@ -1,4 +1,4 @@
-import { IProcedures } from "../../db/types";
+import { IProcedureStatusType } from "../../db/types";
 
 export const defaultFormValues = {
   id: 0,
@@ -8,13 +8,20 @@ export const defaultFormValues = {
   reclaimed_amount: "Ej: 200",
   insurance_authorized_amount: "Ej: 400",
 };
-export const appendFormMock: IProcedures = {
+export const appendFormMock: {
+  status_type: IProcedureStatusType;
+  procediment: null;
+  procediment_code: null;
+  procediment_difference: null;
+  reclaimed_amount: null;
+  insurance_authorized_amount: null;
+} = {
   status_type: "LOCAL",
-  procediment: "Procedimiento",
-  procediment_code: "CODIGO",
-  procediment_difference: 0,
-  reclaimed_amount: 0,
-  insurance_authorized_amount: 0,
+  procediment: null,
+  procediment_code: null,
+  procediment_difference: null,
+  reclaimed_amount: null,
+  insurance_authorized_amount: null,
 };
 export const mockProcedures = [
   {

@@ -51,6 +51,9 @@ const ProcedureModal = () => {
     name: "procedure",
     keyName: "fieldId",
     control,
+    rules: {
+      required: true,
+    },
   });
   const handleClose = () => {
     setOpen(false);
@@ -62,7 +65,7 @@ const ProcedureModal = () => {
   };
 
   const handleAppendForm = () => {
-    append(appendFormMock);
+    append(appendFormMock as unknown as IProcedures);
   };
   const handleDeleteForm = (
     procedureId: string,
@@ -182,7 +185,7 @@ const ProcedureModal = () => {
                   return (
                     <div
                       key={field.fieldId ?? index}
-                      className="flex items-start lg:items-end md:px-4 lg:px-0 gap-2 md:gap-4 lg:gap-4 flex-col-reverse lg:flex-row"
+                      className="flex items-start lg:items-end md:px-4 lg:px-0 gap-8 md:gap-4 lg:gap-4 flex-col-reverse lg:flex-row"
                     >
                       <Button
                         variant="text"
@@ -204,56 +207,74 @@ const ProcedureModal = () => {
                       </Button>
                       <section
                         key={field.fieldId}
-                        className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-12 md:grid-cols-2  "
+                        className="grid  grid-cols-1 lg:grid-cols-[auto_1fr] gap-8 lg:gap-[58px] w-full"
                       >
                         <ProcedureModalItem
                           title={`Procedimiento ${index + 1}`}
                           defaultValue={defaultFormValues.procediment}
+                          customClasses=" w-full lg:w-[181px]"
                           callback={() =>
                             register(
-                              `procedure.${index}.procediment` as "procedure"
+                              `procedure.${index}.procediment` as "procedure",
+                              {
+                                required: true,
+                              }
                             )
                           }
                         />
-                        <ProcedureModalItem
-                          title={`Código`}
-                          defaultValue={defaultFormValues.procediment_code}
-                          callback={() =>
-                            register(
-                              `procedure.${index}.procediment_code` as "procedure"
-                            )
-                          }
-                        />
-                        <ProcedureModalItem
-                          title={`Reclamado RD$`}
-                          inputType="number"
-                          defaultValue={`${defaultFormValues.procediment_difference.toString()}`}
-                          callback={() =>
-                            register(
-                              `procedure.${index}.reclaimed_amount` as "procedure"
-                            )
-                          }
-                        />
-                        <ProcedureModalItem
-                          title={`Diferencia RD$`}
-                          inputType="number"
-                          defaultValue={`${defaultFormValues.procediment_difference.toString()}`}
-                          callback={() =>
-                            register(
-                              `procedure.${index}.procediment_difference` as "procedure"
-                            )
-                          }
-                        />
-                        <ProcedureModalItem
-                          title={`Autorizado RD$`}
-                          inputType="number"
-                          defaultValue={defaultFormValues.insurance_authorized_amount.toString()}
-                          callback={() =>
-                            register(
-                              `procedure.${index}.insurance_authorized_amount` as "procedure"
-                            )
-                          }
-                        />
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 items-center">
+                          <ProcedureModalItem
+                            title={`Código`}
+                            defaultValue={defaultFormValues.procediment_code}
+                            callback={() =>
+                              register(
+                                `procedure.${index}.procediment_code` as "procedure",
+                                {
+                                  required: true,
+                                }
+                              )
+                            }
+                          />
+                          <ProcedureModalItem
+                            title={`Reclamado RD$`}
+                            inputType="number"
+                            defaultValue={`${defaultFormValues.procediment_difference.toString()}`}
+                            callback={() =>
+                              register(
+                                `procedure.${index}.reclaimed_amount` as "procedure",
+                                {
+                                  required: true,
+                                }
+                              )
+                            }
+                          />
+                          <ProcedureModalItem
+                            title={`Diferencia RD$`}
+                            inputType="number"
+                            defaultValue={`${defaultFormValues.procediment_difference.toString()}`}
+                            callback={() =>
+                              register(
+                                `procedure.${index}.procediment_difference` as "procedure",
+                                {
+                                  required: true,
+                                }
+                              )
+                            }
+                          />
+                          <ProcedureModalItem
+                            title={`Autorizado RD$`}
+                            inputType="number"
+                            defaultValue={defaultFormValues.insurance_authorized_amount.toString()}
+                            callback={() =>
+                              register(
+                                `procedure.${index}.insurance_authorized_amount` as "procedure",
+                                {
+                                  required: true,
+                                }
+                              )
+                            }
+                          />
+                        </div>
                       </section>
                     </div>
                   );

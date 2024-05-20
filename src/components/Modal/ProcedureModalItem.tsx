@@ -25,6 +25,7 @@ const ProcedureModalItem = ({
           type={inputType}
           className={`bg-[#F6F6FB] px-4 w-full ring-2 ring-procedure-green-300 rounded h-[44px] ${inputStyles}`}
           {...callback()}
+          required
           placeholder={defaultValue}
         />
       </label>

@@ -4,7 +4,7 @@ import Layout from "@components/Container/Container";
 import ProcedureWrapper from "@components/ProcedureWrapper/ProcedureWrapper";
 import { NoContent } from "@components/404/NoContent";
 import ProcedureModal from "@components/Modal/ProcedureModal";
-import { setStore, snackbarState, store } from "@store/store.setup";
+import { setStore, snackbarState, store, storeModal } from "@store/store.setup";
 import { useSetAtom, useAtomValue, useAtom } from "jotai";
 import { useEffect } from "react";
 import { Snackbar } from "@mui/material";
@@ -12,6 +12,7 @@ import { Snackbar } from "@mui/material";
 function App() {
   const setProcedureList = useSetAtom(setStore);
   const procedureListData = useAtomValue(store);
+  const modalData = useAtomValue(storeModal);
   const [snackbarValue, setSnackbarValue] = useAtom(snackbarState);
   const { data, isSuccess } = useQuery({
     queryKey: ["proceduresList"],
@@ -50,15 +51,29 @@ function App() {
         )}
         {!procedureListData?.length && <NoContent />}
         {procedureListData && <ProcedureModal />}
-        {snackbarValue && (
-          <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            open={snackbarValue}
-            autoHideDuration={6000}
-            onClose={() => setSnackbarValue(!snackbarValue)}
-            message="Procedimiento agregado"
-          />
-        )}
+        {snackbarValue &&
+          modalData.length > 0 &&
+          procedureListData.length > 0 && (
+            <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              open={snackbarValue}
+              autoHideDuration={6000}
+              onClose={() => setSnackbarValue(!snackbarValue)}
+              ContentProps={{
+                sx: {
+                  color: "white",
+                  textAlign: "center",
+                  minWidth: "189px !important",
+                  bgcolor: "lightgreen",
+                  borderRadius: "4px",
+                  background: "#306495",
+                  boxShadow:
+                    "0px 3px 5px -1px rgba(0, 0, 0, 0.20), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)",
+                },
+              }}
+              message="Procedimiento agregado"
+            />
+          )}
       </section>
     </Layout>
   );

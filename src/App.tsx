@@ -51,29 +51,25 @@ function App() {
         )}
         {!procedureListData?.length && <NoContent />}
         {procedureListData && <ProcedureModal />}
-        {snackbarValue &&
-          modalData.length > 0 &&
-          procedureListData.length > 0 && (
-            <Snackbar
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              open={snackbarValue}
-              autoHideDuration={6000}
-              onClose={() => setSnackbarValue(!snackbarValue)}
-              ContentProps={{
-                sx: {
-                  color: "white",
-                  textAlign: "center",
-                  minWidth: "189px !important",
-                  bgcolor: "lightgreen",
-                  borderRadius: "4px",
-                  background: "#306495",
-                  boxShadow:
-                    "0px 3px 5px -1px rgba(0, 0, 0, 0.20), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)",
-                },
-              }}
-              message="Procedimiento agregado"
-            />
-          )}
+
+        {snackbarValue && modalData.length > 0 && procedureListData.length && (
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            open={snackbarValue}
+            autoHideDuration={6000}
+            onClose={() => setSnackbarValue(!snackbarValue)}
+            className="text-white text-center rounded-[4px]"
+            ContentProps={{
+              sx: {
+                minWidth: "189px !important",
+                background: "#306495",
+                boxShadow:
+                  "0px 3px 5px -1px rgba(0, 0, 0, 0.20), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)",
+              },
+            }}
+            message="Procedimiento agregado"
+          />
+        )}
       </section>
     </Layout>
   );

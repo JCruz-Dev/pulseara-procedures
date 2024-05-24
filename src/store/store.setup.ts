@@ -14,6 +14,9 @@ export interface IProcedureStore {
 export const store = atom<IProcedureStore[]>([]);
 export const snackbarState = atom(false);
 export const storeModal = atomWithDefault((get) => get(store));
+export const deletedProceduresState = atom<string[]>([]);
+export const emitSetValueFormFunction = atom<boolean>(false);
+export const modalOpeningState = atom(false);
 export const setStore = atom(null, (_get, set, args: IProcedures[]) => {
   set(store, args);
 });

@@ -1,27 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import { getProccedures } from "./db/enpoints";
 import Layout from "@components/Container/Container";
 import ProcedureWrapper from "@components/ProcedureWrapper/ProcedureWrapper";
 import { NoContent } from "@components/404/NoContent";
 import ProcedureModal from "@components/Modal/ProcedureModal";
-import { setStore, snackbarState, store, storeModal } from "@store/store.setup";
-import { useSetAtom, useAtomValue, useAtom } from "jotai";
-import { useEffect } from "react";
+import { snackbarState, store, storeModal } from "@store/store.setup";
+import { useAtomValue, useAtom } from "jotai";
 import { Snackbar } from "@mui/material";
+import { useGetProcedures } from "./components/Modal/hooks";
 
 function App() {
-  const setProcedureList = useSetAtom(setStore);
   const procedureListData = useAtomValue(store);
   const modalData = useAtomValue(storeModal);
   const [snackbarValue, setSnackbarValue] = useAtom(snackbarState);
-  const { data, isSuccess } = useQuery({
-    queryKey: ["proceduresList"],
-    queryFn: getProccedures,
-  });
-  useEffect(() => {
-    if (data) setProcedureList(data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
+  useGetProcedures();
 
   const wrapperVariant = {
     no_data: "justify-center items-center w-full",
